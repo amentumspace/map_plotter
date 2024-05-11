@@ -22,6 +22,6 @@ if __name__ == "__main__":
 
     map_plotter.plot(
         lons_g, lats_g, masked_currents,  
-        units="m/s", img_name="ocean_current.png", plot=True, save=False)
+        units="m/s", img_name="ocean_current.png", plot=True, save=True)
 
 
