@@ -1,0 +1,4 @@
+*.npz
+map_*.png
+build/
+*.egg-info*
