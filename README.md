@@ -1,6 +1,6 @@
 # map_plotter
 
-The package abstracts away some complexity of using the Python package cartopy for creating global heatmaps / intensity maps of a quantity. 
+The package abstracts away some complexity of using the Python packages cartopy/matplotlib for creating global heatmaps / intensity maps of a quantity. 
 
 ## Setup
 
@@ -12,7 +12,7 @@ conda install cartopy
 
 ## Installation
 
-To install this package within the virtual environment, by executing:
+Install this package within the virtual environment:
 
 ```bash
 pip install .
@@ -20,7 +20,7 @@ pip install .
 
 ## Usage
 
-Import the module and call the plot function as shown below:
+Import the module and call the `plot` function as shown below:
 
 ```python
 import map_plotter
