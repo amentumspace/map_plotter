@@ -8,7 +8,7 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name="map_plotter",
-    version="0.1.0",
+    version="0.2.0",
     author="Amentum Scientific",
     author_email="team@amentum.space",
     description="A simple Python package to plot a gridded quantity overlaid onto geographic map",
