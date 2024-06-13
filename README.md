@@ -24,15 +24,21 @@ Import the module and call the `plot` function as shown below:
 
 ```python
 import map_plotter
-map_plotter.plot(lons_g, lats_g, variable, units="m/s", img_name="image.png",
-    save=True, plot=True, title="something", zlims=[0,10])
+map_plotter.plot(
+    lons_g, lats_g, 
+    variable, units="m/s", 
+    variable_vector,
+    img_name="image.png",
+    save=True, plot=True, 
+    title="something", zlims=[0,10])
 ```
 
 Whereby: 
 
 - `lons_g` and `lats_g` represent 2D matrices / grids of longitudes and latitudes.
-- `values` is the matrix of values to be plotted (same grid dimensions).
-- `units` and `img_name` (self explanatory).
+- `variable` is the matrix of scalar values to be plotted (same grid dimensions).
+- `variable_vector` is the matrix of values of tuples (u,v) to be plotted (same grid dimensions). If both variable and variable_vector specified, quiver plot is overload onto intensity plot.
+- `units` and `img_name` (self explanatory, units apply to scalar variable intensity plot).
 - `save` & `plot` boolean flags to save the file and plot to screen, respectively.
 - `zlims` define the color scale minimum and maximum.  
 

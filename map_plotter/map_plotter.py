@@ -11,11 +11,12 @@ import cartopy.feature as cfeature
 import cartopy.io.shapereader as shapereader
 
 from matplotlib.collections import QuadMesh
-from typing import Optional, Union
+from typing import Optional, Union, Tuple
 
-def plot(lons: np.ndarray, lats: np.ndarray, variable: np.ndarray, 
+def plot(lons: np.ndarray, lats: np.ndarray, variable: np.ndarray = None, 
+         variable_vector: Tuple[np.ndarray, np.ndarray] = None, 
          units: str = "None", img_name: str = "map.png", 
-         save: bool = False, plot: bool = False, vector: bool = False,
+         save: bool = False, plot: bool = False, 
          title: str = "",
          zlims: Optional[tuple] = None) -> Union[QuadMesh, None]:
 
@@ -31,8 +32,9 @@ def plot(lons: np.ndarray, lats: np.ndarray, variable: np.ndarray,
 
     cont = None 
     
-    # most commonly intensity plot 
-    if not vector: 
+    # by default we plot this, can be switched off by passing None
+    # and passing not None for vector field
+    if variable is not None: 
         variable = np.ma.masked_array(variable, np.isnan(variable))
 
         zmin = variable.min() 
@@ -55,9 +57,14 @@ def plot(lons: np.ndarray, lats: np.ndarray, variable: np.ndarray,
         cbar.set_label(units, fontweight='bold')
 
         cbar.set_ticks(np.linspace(zmin, zmax, 10))
-    else: 
-        dx = variable[0]
-        dy = variable[1]
+
+    # can overlay this 
+    if variable_vector is not None: 
+        variable_vector = np.ma.masked_array(
+            variable_vector, np.isnan(variable_vector)
+        )
+        dx = variable_vector[0]
+        dy = variable_vector[1]
         ax.quiver(lons, lats, dx, dy)
 
     xmin = lons.min()
