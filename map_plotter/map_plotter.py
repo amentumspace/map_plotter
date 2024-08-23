@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from matplotlib.colors import LogNorm
 plt.rcParams['font.weight'] = 'bold'
 
 import numpy as np 
@@ -13,12 +14,15 @@ import cartopy.io.shapereader as shapereader
 from matplotlib.collections import QuadMesh
 from typing import Optional, Union, Tuple
 
+
+
 def plot(lons: np.ndarray, lats: np.ndarray, variable: np.ndarray = None, 
          variable_vector: Tuple[np.ndarray, np.ndarray] = None, 
          units: str = "None", img_name: str = "map.png", 
          save: bool = False, plot: bool = False, 
          title: str = "",
-         zlims: Optional[tuple] = None) -> Union[QuadMesh, None]:
+         zlims: Optional[tuple] = None,
+         use_log_scale: bool = False) -> Union[QuadMesh, None]:
 
     # plotting preferences
     plt.rcParams.update({"font.size": 10})
@@ -43,12 +47,19 @@ def plot(lons: np.ndarray, lats: np.ndarray, variable: np.ndarray = None,
         zmax = variable.max() 
         if zlims is not None : zmax=zlims[1]
 
-        cont = ax.pcolormesh(lons, lats, variable,
-                            cmap=cmap, 
-                            vmin=zmin, 
-                            vmax=zmax, 
-                            alpha=0.75, 
-                            shading='gouraud')
+        if use_log_scale: 
+            cont = ax.pcolormesh(lons, lats, variable,
+                cmap=cmap, 
+                norm=LogNorm(vmin=zmax*0.01, vmax=zmax),
+                alpha=0.75, 
+                shading='gouraud')
+        else: 
+            cont = ax.pcolormesh(lons, lats, variable,
+                cmap=cmap, 
+                vmin=zmin, 
+                vmax=zmax, 
+                alpha=0.75, 
+                shading='gouraud')
 
         cont.set_edgecolor('none')
 
@@ -56,7 +67,8 @@ def plot(lons: np.ndarray, lats: np.ndarray, variable: np.ndarray = None,
                             fraction=0.046, pad=0.04)
         cbar.set_label(units, fontweight='bold')
 
-        cbar.set_ticks(np.linspace(zmin, zmax, 10))
+        if not use_log_scale: 
+            cbar.set_ticks(np.linspace(zmin, zmax, 10))
 
     # can overlay this 
     if variable_vector is not None: 
