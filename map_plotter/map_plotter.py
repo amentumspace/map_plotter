@@ -22,7 +22,8 @@ def plot(lons: np.ndarray, lats: np.ndarray, variable: np.ndarray = None,
          save: bool = False, plot: bool = False, 
          title: str = "",
          zlims: Optional[tuple] = None,
-         use_log_scale: bool = False) -> Union[QuadMesh, None]:
+         use_log_scale: bool = False,
+         point_of_interest: Optional[tuple] = None) -> Union[QuadMesh, None]:
 
     # plotting preferences
     plt.rcParams.update({"font.size": 10})
@@ -79,6 +80,11 @@ def plot(lons: np.ndarray, lats: np.ndarray, variable: np.ndarray = None,
         dy = variable_vector[1]
         ax.quiver(lons, lats, dx, dy)
 
+    if point_of_interest: 
+        ax.scatter(point_of_interest[1], point_of_interest[0], 
+            color='red', marker='x', s=100, linewidths=3, 
+            transform=ccrs.PlateCarree(),zorder=5)
+        
     xmin = lons.min()
     xmax = lons.max()
 
@@ -101,6 +107,7 @@ def plot(lons: np.ndarray, lats: np.ndarray, variable: np.ndarray = None,
     ax.add_feature(cfeature.LAND, edgecolor='black')
 
     ax.set_title(title, pad=20, fontweight='bold')
+
 
     if plot : plt.show()
     if save : fig.savefig(img_name)
